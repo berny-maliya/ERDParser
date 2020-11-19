@@ -16,7 +16,7 @@ import org.json.JSONTokener;
 
 /**
  *
- * @author rnavarro
+ * @author dell
  */
 public class ERDParser {
 
