@@ -98,10 +98,10 @@ public class ERDParser {
                 
                 i++;
             } 
-            TableDemo tab=new TableDemo(tabla);
+            TableDemo tab=new TableDemo(tabla,i,entityName);
             //Frm form=new Frm(tabla);
             //form.mein(tabla,entityName);
-            tab.main(tabla,entityName);
+            tab.main(tabla,entityName,i);
         }
         System.out.println("");
         System.out.println("** DEBILES **");
@@ -159,9 +159,10 @@ public class ERDParser {
                 
                 i++;
             }
-            TableDemo tab=new TableDemo(table);
-            
-            tab.main(table,entityName);
+TableDemo tab=new TableDemo(table,i,entityName);
+            //Frm form=new Frm(tabla);
+            //form.mein(tabla,entityName);
+            tab.main(table,entityName,i);
         }
         
         

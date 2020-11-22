@@ -7,12 +7,18 @@ package erdparser;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
@@ -24,12 +30,17 @@ public class TableDemo extends JPanel{
     private boolean DEBUG = false;
     Object[][] out;
     
-    public TableDemo(Object[][] out) {
+    public TableDemo(Object[][] out,int i,String name) {
         super(new GridLayout(1,0));
         this.out=out;
         MyTableModel my=new MyTableModel();
         JTable table = new JTable(my);
+        JPanel panel=new JPanel();
+        JTextArea text=new JTextArea(40,61);
         
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        JButton button=new JButton("Obtener Sentencia SQL");
         TableColumn column=new TableColumn();
         column=table.getColumnModel().getColumn(1);
         JComboBox combo=new JComboBox();
@@ -40,13 +51,25 @@ public class TableDemo extends JPanel{
         
         column.setCellEditor(new DefaultCellEditor(combo));
         
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandButton com=new CommandButton(table,name);
+                text.setText(com.sentencia(i));
+            }
+        });
+        
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        
         table.setFillsViewportHeight(true);
         
+        panel.add(button);
+        panel.add(text);
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
-
+        
         //Add the scroll pane to this panel.
+        add(panel);
         add(scrollPane);
     }
     class MyTableModel extends AbstractTableModel{
@@ -139,28 +162,29 @@ public class TableDemo extends JPanel{
             System.out.println("--------------------------");
         }
     }
-    private static void createAndShowGUI(Object[][] salida,String name) {
+    private static void createAndShowGUI(Object[][] salida,String name,int i) {
         //Create and set up the window.
         JFrame frame = new JFrame(name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
         //Create and set up the content pane.
-        TableDemo newContentPane = new TableDemo(salida);
+        TableDemo newContentPane = new TableDemo(salida,i,name);
         newContentPane.setOpaque(true); //content panes must be opaque
         frame.setContentPane(newContentPane);
 
         //Display the window.
-        frame.setSize(500, 200);
+        //frame.setSize(500, 200);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    public void main(Object[][] out,String name) {
+    public void main(Object[][] out,String name, int i) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI(out,name);
+                createAndShowGUI(out,name,i);
             }
         });
     }
