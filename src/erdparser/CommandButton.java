@@ -58,7 +58,7 @@ public class CommandButton {
                             sql = sql + "NUMERIC(";
                             break;
                         case "Fecha":
-                            sql = sql + "timestamp";
+                            sql = sql + "DATETIME ";
                             break;
                     }
                         break;
@@ -66,8 +66,6 @@ public class CommandButton {
                         String cells = table.getValueAt(i, j).toString();
                     if (table.getValueAt(i, 1).equals("Fecha") == false) {
                         sql = sql + cells + ") ";
-                    } else {
-                        sql = sql + ",\n\t";
                     }
                         break;
                     case 3:

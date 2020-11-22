@@ -6,6 +6,7 @@
 package erdparser;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,8 +37,9 @@ public class TableDemo extends JPanel{
         MyTableModel my=new MyTableModel();
         JTable table = new JTable(my);
         JPanel panel=new JPanel();
-        JTextArea text=new JTextArea(40,61);
-        
+        JTextArea text=new JTextArea(25,40);
+        Font tamletra=new Font("Dialog",Font.BOLD,20);
+        text.setFont(tamletra);
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
         JButton button=new JButton("Obtener Sentencia SQL");
