@@ -24,8 +24,10 @@ public class CommandButton {
     }
 
     public String sentencia(int length) {
-        String sql = null;
-        int count=0;
+        String sql = "",pk="";
+        String[] cell=new String[length];
+        
+        int count=0,pos=0;
         sql = "CREATE TABLE IF NOT EXISTS " + name + "(\n\t";
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < 5; j++) {
@@ -36,9 +38,11 @@ public class CommandButton {
                     int compare = letras.length - 1;
 
                     if (letras[compare] == '*') {
-                        String cell = nombrecampo(letras);
-                        sql = sql + cell + " ";
+                        cell[i] = nombrecampo(letras);
+                        sql = sql + cell[i] + " ";
+                        pos=i;
                     } else {
+                        cell[i]=table.getValueAt(i, j).toString();
                         sql = sql + table.getValueAt(i, j) + " ";
                     }
                     
@@ -59,9 +63,9 @@ public class CommandButton {
                     }
                         break;
                     case 2:
-                        String cell = table.getValueAt(i, j).toString();
+                        String cells = table.getValueAt(i, j).toString();
                     if (table.getValueAt(i, 1).equals("Fecha") == false) {
-                        sql = sql + cell + ") ";
+                        sql = sql + cells + ") ";
                     } else {
                         sql = sql + ",\n\t";
                     }
@@ -70,9 +74,9 @@ public class CommandButton {
                         Boolean nui = (Boolean) table.getValueAt(i, j);
                     if (i == length - 1) {
                         if (nui == Boolean.TRUE) {
-                            sql = sql + "NOT NULL";
+                            sql = sql + "NOT NULL,\n\t";
                         } else {
-                            //sql = sql + ",\n\t";
+                            sql = sql + ",\n\t";
                         }
                     } else {
                         if (nui == Boolean.TRUE) {
@@ -86,13 +90,20 @@ public class CommandButton {
                          Boolean nu = (Boolean) table.getValueAt(i, j);
                     if (nu == Boolean.TRUE) {
                         sql = sql + "";
+                        if (count>0) {
+                            pk=pk+","+cell[count];
+                        }else{
+                            pk=pk+cell[count];
+                        }
                         count++;
                     }
                         break;
                 }
             }
         }
-        sql = sql + "\n);";
+        
+        System.out.println(pk);
+        sql = sql +"PRIMARY KEY("+pk+")"+ "\n);";
         System.out.println(count);
         return sql;
     }
